@@ -65,6 +65,12 @@ const onMessage = ({sender, intent, entities, confidence, text, reply}) => {
         reply([
             {
                 text: 'Sorry.. I cannot understand your intent, please try again'
+            },
+            {
+                text: 'Utterance: ' + text + '\nIntent: ' + intent + '\nConfidence Score: ' + confidence
+            },
+            {
+                text: 'Entities: \n' + JSON.stringify(entities, null, 2)
             }
         ])
     }
