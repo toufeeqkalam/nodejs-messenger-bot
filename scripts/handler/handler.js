@@ -1,5 +1,6 @@
 const uuid = require('uuid');
 const _ = require('lodash');
+const e = require("express");
 
 
 const handler = (bot) => {
@@ -50,10 +51,10 @@ const handler = (bot) => {
 const onMessage = ({sender, intent, entities, confidence, text, reply}) => {
     reply([
         {
-            text: '[intent]: ' + intent + ' [entities]: ' + JSON.stringify(entities) + ' [confidence]: ' + confidence
+            text: 'Utterance: ' + text  +  '\n Intent: ' + intent + '\n Confidence Score: ' + confidence
         },
         {
-            text: '[utterance]: ' + text
+            text: 'Entities: ' + JSON.stringify(entities, null, 2)
         }
     ]);
 }
