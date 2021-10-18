@@ -1,18 +1,30 @@
 const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
-const logger = require('morgan');
-
+const {PORT} = require('./scripts/config/config');
+const Bot = require('./scripts/bot/bot');
+const {
+    FACEBOOK_ACCESS_TOKEN,
+    FACEBOOK_VERIFY_TOKEN,
+    FACEBOOK_APP_SECRET
+} = require('./scripts/config/config');
 const app = express();
 
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+const bot = new Bot({
+    token: FACEBOOK_ACCESS_TOKEN,
+    verifyToken: FACEBOOK_VERIFY_TOKEN,
+    appSecret: FACEBOOK_APP_SECRET
+});
 
-app.get('/status', (req, res) => {
+app.get('/', (req, res) => {
     res.send({status: 'UP'});
 });
 
+app.use('/webhook', require('./scripts/routes/webhook')(bot))
+
+app.listen(PORT).on('error', (error) => {
+    console.error('Error while starting up server: ' + JSON.stringify(error));
+    process.exit(1);
+});
+
+console.log('⚡ App listening on port: ' + PORT);
 
 module.exports = app;
