@@ -23,7 +23,7 @@ class Bot extends EventEmitter {
         return request({
             method: 'GET',
             uri: this.graphUrl + '/' + psid,
-            qs: querystring.stringify({access_token: this.token, fields: 'first_name,last_name,profile_pic,gender,timezone,locale'}),
+            qs: {fields: 'first_name,last_name,profile_pic,gender,timezone,locale', access_token: this.token},
             json: true
         }).then(data => {
             if(data.error) return Promise.reject(data.error);
@@ -39,7 +39,7 @@ class Bot extends EventEmitter {
         return request({
             method: 'POST',
             uri: this.graphUrl + '/me/messages',
-            qs: querystring.stringify({access_token: this.token}),
+            qs: {access_token: this.token},
             json: {
                 recipient: {
                     id: psid
@@ -60,7 +60,7 @@ class Bot extends EventEmitter {
         return request({
             method: 'POST',
             uri: this.graphUrl + '/me/messages',
-            qs: querystring.stringify({access_token: this.token}),
+            qs: {access_token: this.token},
             json: {
                 recipient: {
                     id: psid,
