@@ -4,8 +4,10 @@ const e = require("express");
 
 
 const handler = (bot) => {
+
     (['message', 'postback']).map(async event => {
         bot.on(event, (payload, reply, actions) => {
+            //reply with typing on
             const replyWithDelay = (messages, callback) => {
                 if (messages.length === 0) return;
                 actions.setTyping(true);
@@ -49,14 +51,25 @@ const handler = (bot) => {
 }
 
 const onMessage = ({sender, intent, entities, confidence, text, reply}) => {
-    reply([
-        {
-            text: 'Utterance: ' + text  +  '\nIntent: ' + intent + '\nConfidence Score: ' + confidence
-        },
-        {
-            text: 'Entities: \n' + JSON.stringify(entities, null, 2)
-        }
-    ]);
+
+    if (confidence > 0.9) {
+        reply([
+            {
+                text: 'Utterance: ' + text + '\nIntent: ' + intent + '\nConfidence Score: ' + confidence
+            },
+            {
+                text: 'Entities: \n' + JSON.stringify(entities, null, 2)
+            }
+        ]);
+    } else {
+        reply([
+            {
+                text: 'Sorry.. I cannot understand your intent, please try again'
+            }
+        ])
+    }
+
+
 }
 
 

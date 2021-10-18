@@ -1,7 +1,6 @@
 'use strict';
 
 const {EventEmitter} = require('events');
-const querystring = require('querystring');
 const request = require('request-promise');
 
 class Bot extends EventEmitter {
