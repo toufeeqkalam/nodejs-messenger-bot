@@ -51,10 +51,10 @@ const handler = (bot) => {
 const onMessage = ({sender, intent, entities, confidence, text, reply}) => {
     reply([
         {
-            text: 'Utterance: ' + text  +  '\n Intent: ' + intent + '\n Confidence Score: ' + confidence
+            text: 'Utterance: ' + text  +  '\nIntent: ' + intent + '\nConfidence Score: ' + confidence
         },
         {
-            text: 'Entities: ' + JSON.stringify(entities, null, 2)
+            text: 'Entities: \n' + JSON.stringify(entities, null, 2)
         }
     ]);
 }
