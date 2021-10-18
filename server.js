@@ -1,5 +1,4 @@
 const express = require('express');
-const {PORT} = require('./scripts/config/config');
 const Bot = require('./scripts/bot/bot');
 const CONFIG = require('./scripts/config/config');
 const app = express();
@@ -16,11 +15,11 @@ app.get('/', (req, res) => {
 
 app.use('/webhook', require('./scripts/routes/webhook')(bot))
 
-app.listen(PORT).on('error', (error) => {
-    console.error('Error while starting up server: ' + JSON.stringify(error));
-    process.exit(1);
-});
+const PORT = process.env.PORT || 5000;
 
-console.log('⚡ App listening on port: ' + PORT);
+app.listen(PORT, () => {
+    console.log('⚡ Application started on port: ' + PORT);
+})
+
 
 module.exports = app;
