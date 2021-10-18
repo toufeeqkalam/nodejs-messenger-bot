@@ -51,8 +51,7 @@ const handler = (bot) => {
 }
 
 const onMessage = ({sender, intent, entities, confidence, text, reply}) => {
-
-    if (confidence > 0.9) {
+    if (intent) {
         reply([
             {
                 text: 'Utterance: ' + text + '\nIntent: ' + intent + '\nConfidence Score: ' + confidence
