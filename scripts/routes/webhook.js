@@ -2,7 +2,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const handler = require('../handler/Handler')
+const handler = require('../handler/handler')
 
 const webhook = (bot) => {
     let router;
