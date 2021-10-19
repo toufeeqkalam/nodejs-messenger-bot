@@ -54,7 +54,7 @@ const onMessage = ({sender, nlp, text, reply}) => {
     }else {
         reply([
             {
-                text: 'Utterance: ' + text + '\nIntent: ' + nlp.intent[0].name + '\nConfidence Score: ' + nlp.intent[0].confidence
+                text: 'Utterance: ' + text + '\nIntent: ' + nlp.intents[0].name + '\nConfidence Score: ' + nlp.intents[0].confidence
             },
             {
                 text: 'Entities: \n' + JSON.stringify(nlp.entities, null, 2),
