@@ -46,7 +46,7 @@ const handler = (bot) => {
 
 const onMessage = ({sender, nlp, text, reply}) => {
 
-    const greeting = getTrait(nlp, 'wit$greeting');
+    const greeting = getTrait(nlp, 'wit$greetings');
     if (greeting && greeting.confidence > 0.8) {
         reply([
             {text: 'Hey ' + sender.first_name + ', welcome to Metropolitan GetUp!'}
@@ -54,10 +54,13 @@ const onMessage = ({sender, nlp, text, reply}) => {
     }else {
         reply([
             {
-                text: 'Utterance: ' + text + '\nIntent: ' + intent + '\nConfidence Score: ' + confidence
+                text: 'Utterance: ' + text + '\nIntent: ' + nlp.intent[0].name + '\nConfidence Score: ' + nlp.intent[0].confidence
             },
             {
-                text: 'Entities: \n' + JSON.stringify(entities, null, 2)
+                text: 'Entities: \n' + JSON.stringify(nlp.entities, null, 2),
+            },
+            {
+                text: 'Traits: \n' + JSON.stringify(nlp.traits, null, 2)
             }
         ]);
     }
