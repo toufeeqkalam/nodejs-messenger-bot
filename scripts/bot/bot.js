@@ -115,6 +115,7 @@ class Bot extends EventEmitter {
         }
     }
 
+    //webhook - link to n
     verify = (req, res) => {
         let query = req.query;
         if (query['hub.mode'] === 'subscribe' && query['hub.verify_token'] === this.verifyToken) {
@@ -122,6 +123,7 @@ class Bot extends EventEmitter {
         }
         return res.end('Verify Error - Wrong validation token');
     }
+
 
     handleEvent = (type, event) => {
         this.emit(type, event, this.sendMessage.bind(this, event.sender.id), this.getActionsObject(event));

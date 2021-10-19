@@ -7,6 +7,7 @@ const handler = (bot) => {
 
     (['message', 'postback']).map(async event => {
         bot.on(event, (payload, reply, actions) => {
+            //reply with typing bubbles
             const replyWithDelay = (messages, callback) => {
                 if (messages.length === 0) return;
                 actions.setTyping(true);
@@ -24,21 +25,15 @@ const handler = (bot) => {
                 if (event === 'postback') {
                     onMessage({
                         sender,
-                        intent: payload.postback.payload,
-                        entities: {},
-                        text: payload.postback.title,
+                        nlp: payload.message.nlp,
+                        text: payload.message.text,
                         reply: replyWithDelay
                     });
                 } else if (event === 'message') {
                     if (payload.message.text) {
-                        const intent = payload.message.nlp.intents[0].name;
-                        const entities = payload.message.nlp.entities;
-                        const confidence = payload.message.nlp.intents[0].confidence;
                         onMessage({
                             sender,
-                            intent,
-                            entities,
-                            confidence,
+                            nlp: payload.message.nlp,
                             text: payload.message.text,
                             reply: replyWithDelay
                         })
@@ -49,15 +44,27 @@ const handler = (bot) => {
     });
 }
 
-const onMessage = ({sender, intent, entities, confidence, text, reply}) => {
-    reply([
-        {
-            text: 'Utterance: ' + text + '\nIntent: ' + intent + '\nConfidence Score: ' + confidence
-        },
-        {
-            text: 'Entities: \n' + JSON.stringify(entities, null, 2)
-        }
-    ]);
+const onMessage = ({sender, nlp, text, reply}) => {
+
+    const greeting = getTrait(nlp, 'wit$greeting');
+    if (greeting && greeting.confidence > 0.8) {
+        reply([
+            {text: 'Hey ' + sender.first_name + ', welcome to Metropolitan GetUp!'}
+        ])
+    }else {
+        reply([
+            {
+                text: 'Utterance: ' + text + '\nIntent: ' + intent + '\nConfidence Score: ' + confidence
+            },
+            {
+                text: 'Entities: \n' + JSON.stringify(entities, null, 2)
+            }
+        ]);
+    }
+}
+
+const getTrait = (nlp, name) => {
+    return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
 }
 
 
