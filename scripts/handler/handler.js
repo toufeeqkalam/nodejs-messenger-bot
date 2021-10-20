@@ -7,7 +7,6 @@ const handler = (bot) => {
 
     (['message', 'postback']).map(async event => {
         bot.on(event, (payload, reply, actions) => {
-            //reply with typing bubbles
             const replyWithDelay = (messages, callback) => {
                 if (messages.length === 0) return;
                 actions.setTyping(true);
@@ -18,7 +17,6 @@ const handler = (bot) => {
                     replyWithDelay(messages)
                 }), 600);
             };
-
             bot.getProfile(payload.sender.id, (err, profile) => {
                 if (err) throw err;
                 const sender = Object.assign({}, profile);
@@ -49,7 +47,7 @@ const onMessage = ({sender, nlp, text, reply}) => {
     const greeting = getTrait(nlp, 'wit$greetings');
     if (greeting && greeting.confidence > 0.8) {
         reply([
-            {text: 'Hey ' + sender.first_name + ', welcome to Metropolitan GetUp!'}
+            {text: 'Hey ' + sender.first_name + ', fancy meeting you here!'}
         ])
     }else {
         reply([
