@@ -115,7 +115,6 @@ class Bot extends EventEmitter {
         }
     }
 
-    //webhook - link to n
     verify = (req, res) => {
         let query = req.query;
         if (query['hub.mode'] === 'subscribe' && query['hub.verify_token'] === this.verifyToken) {
